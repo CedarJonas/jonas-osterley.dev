@@ -24,7 +24,7 @@ export async function getWriteUps(projectSlug?: string): Promise<WriteUpEntry[]>
   const entries = await getCollection("projects");
   return entries
     .filter(isWriteUp)
-    .filter((entry) => !entry.data.draft)
+    .filter((entry) => import.meta.env.DEV || !entry.data.draft)
     .filter((entry) => (projectSlug ? entry.slug.startsWith(`${projectSlug}/`) : true))
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 }
@@ -32,7 +32,7 @@ export async function getWriteUps(projectSlug?: string): Promise<WriteUpEntry[]>
 export async function getEssays() {
   const entries = await getCollection("writing");
   return entries
-    .filter((entry) => !entry.data.draft)
+    .filter((entry) => import.meta.env.DEV || !entry.data.draft)
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 }
 
