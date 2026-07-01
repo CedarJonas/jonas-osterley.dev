@@ -1,0 +1,76 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getEssays, formatDate } from "../../lib/content";
+
+const essays = await getEssays();
+---
+
+<Base title="Writing">
+  <h1>Writing</h1>
+  {
+    essays.length > 0 ? (
+      <ul class="essay-list">
+        {essays.map((essay) => (
+          <li>
+            <h2>
+              <a href={`/writing/${essay.slug}`}>{essay.data.title}</a>
+            </h2>
+            <p class="date">{formatDate(essay.data.date)}</p>
+            <p>{essay.data.description}</p>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p class="empty-state">
+        <em>Nothing here yet.</em>
+      </p>
+    )
+  }
+</Base>
+
+<style>
+  h1 {
+    margin-bottom: 2rem;
+  }
+
+  .essay-list {
+    list-style: none;
+  }
+
+  .essay-list li {
+    padding: 1.75rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .essay-list li:last-child {
+    border-bottom: none;
+  }
+
+  .essay-list h2 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  .essay-list h2 a {
+    color: var(--heading);
+  }
+
+  .essay-list h2 a:hover {
+    color: var(--accent);
+  }
+
+  .date {
+    font-family: var(--font-heading);
+    font-size: var(--size-eyebrow);
+    color: var(--muted);
+    margin-bottom: 0.375rem;
+  }
+
+  /* Quiet confidence, not incompleteness (ADR-005) */
+  .empty-state {
+    text-align: center;
+    margin: 6rem 0;
+    color: var(--muted);
+  }
+</style>

@@ -1,0 +1,140 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = "ML Engineer — Agentic Infrastructure · LLM Evaluation · Production AI Systems",
+} = Astro.props;
+const currentPath = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title === "Home" ? "Jonas Osterley" : `${title} — Jonas Osterley`}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Manrope:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <nav class="site-nav">
+      <div class="nav-inner">
+        <a href="/" class="site-name">Jonas Osterley</a>
+        <div class="nav-links">
+          <a
+            href="/"
+            class:list={[{ active: currentPath === "/" || currentPath.startsWith("/projects") }]}
+            >Projects</a
+          >
+          <a href="/writing" class:list={[{ active: currentPath.startsWith("/writing") }]}
+            >Writing</a
+          >
+          <a href="/about" class:list={[{ active: currentPath === "/about" }]}>About</a>
+          <a href="/colophon" class:list={[{ active: currentPath === "/colophon" }]}>Colophon</a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="content-wrapper">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <span>Jonas Osterley · 2026</span>
+        <a href="/colophon">How this site was made</a>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .site-nav {
+    border-bottom: 1px solid var(--border);
+    padding: 0.875rem 0;
+  }
+
+  .nav-inner {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding: 0 var(--page-padding);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .site-name {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--heading);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+
+  .site-name:hover {
+    color: var(--accent);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+    font-family: var(--font-heading);
+    font-size: var(--size-nav);
+    font-weight: 500;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .nav-links a:hover,
+  .nav-links a.active {
+    color: var(--accent);
+  }
+
+  main {
+    padding-top: 2.5rem;
+    padding-bottom: 4rem;
+  }
+
+  .site-footer {
+    background: var(--dark);
+    padding: 2rem 0 2.25rem;
+  }
+
+  .footer-inner {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding: 0 var(--page-padding);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: var(--font-heading);
+    font-size: var(--size-nav);
+    color: var(--dark-muted);
+  }
+
+  .footer-inner a {
+    color: var(--dark-muted);
+  }
+
+  .footer-inner a:hover {
+    color: var(--accent-light);
+  }
+</style>
